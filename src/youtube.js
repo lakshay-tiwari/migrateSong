@@ -5,21 +5,28 @@ const apiKey = process.env.GOOGLE_API_KEY;
 const access_token = process.env.GOOGLE_ACCESS_TOKEN;
 
 // this search the song 
-async function getValue(q,maxResults,order){  // query, 2, relevance
-    const url = 'https://www.googleapis.com/youtube/v3/search';
-    const response = await axios.get(url,{
-        headers: {
-            Authorization: `Bearer ${access_token}`
-        },
-        params: {
-            "part": "snippet",
-            "maxResults": maxResults ,
-            "order": order,
-            "q" : q,
-            "safeSearch": "none"
-        }
-    })
-    console.log(response.data.items);
+async function searchSong(q){  // query, 2, relevance
+    try {
+      const url = 'https://www.googleapis.com/youtube/v3/search';
+      const response = await axios.get(url,{
+          headers: {
+              Authorization: `Bearer ${access_token}`
+          },
+          params: {
+              "part": "snippet",
+              "maxResults": 1 ,
+              "order": 'relevance',
+              "q" : q,
+              "safeSearch": "none",
+              'type': 'video'
+          }
+      })
+      console.log(response.data.items);
+      return response.data.items;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
 }
 
 
@@ -45,17 +52,19 @@ async function addPlaylist(title,description){
                 }
             }
         )
-        console.log(response.data);
+        console.log(response.data.id);
+        return response.data.id;
     } catch(e){
         console.log("error occurs");
         console.log(e);
         console.log('error!!');
+        return null;
     }
 }
 
 
 // add song to the playlist 
-async function addSongToPlaylist(accessToken, playlistId, videoId) {
+async function addSongToPlaylist(playlistId, videoId) {
   try {
     const response = await axios.post(
       `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet`,
@@ -73,7 +82,7 @@ async function addSongToPlaylist(accessToken, playlistId, videoId) {
             part: 'snippet'
         },
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${access_token}`,
           Accept: 'application/json',
         }
       }
@@ -85,5 +94,4 @@ async function addSongToPlaylist(accessToken, playlistId, videoId) {
   }
 }
 
-
-
+module.exports = { searchSong , addSongToPlaylist , addPlaylist }
