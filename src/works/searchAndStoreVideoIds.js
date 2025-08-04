@@ -33,6 +33,8 @@ async function searchAndStoreVideoIds() {
         youtubeData.push({ playlistName, videoIds });
     }
 
+    
+
     fs.writeFileSync(youtubeMappedFile, JSON.stringify(youtubeData, null, 2));
     console.log(`✅ Saved video IDs to ${youtubeMappedFile}`);
 }
