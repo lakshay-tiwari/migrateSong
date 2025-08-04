@@ -3,3 +3,5 @@ node_modules
 searchToyt.js
 data.json
 response.json
+spotifyTracks.json
+youtubeTracks.json

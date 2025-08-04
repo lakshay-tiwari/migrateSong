@@ -1,6 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
-const updateEnvVariable = require('./updateEnvVariable');
+const updateEnvVariable = require('../updateEnvVariable');
 const express = require('express');
 const querystring = require('querystring');
 

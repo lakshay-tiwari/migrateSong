@@ -5,7 +5,7 @@ const apiKey = process.env.GOOGLE_API_KEY;
 const access_token = process.env.GOOGLE_ACCESS_TOKEN;
 
 // this search the song 
-async function searchSong(q){  // query, 2, relevance
+async function searchSongOnYoutube(q){  // query
     try {
       const url = 'https://www.googleapis.com/youtube/v3/search';
       const response = await axios.get(url,{
@@ -22,7 +22,7 @@ async function searchSong(q){  // query, 2, relevance
           }
       })
       console.log(response.data.items);
-      return response.data.items;
+      return response.data.items[0].id.videoId;
     } catch (error) {
       console.log(error);
       return [];
@@ -94,4 +94,4 @@ async function addSongToPlaylist(playlistId, videoId) {
   }
 }
 
-module.exports = { searchSong , addSongToPlaylist , addPlaylist }
+module.exports = { searchSongOnYoutube , addSongToPlaylist , addPlaylist }
